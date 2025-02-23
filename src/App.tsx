@@ -25,7 +25,7 @@ function App() {
    useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
          if ((event.ctrlKey) && event.key === "s" && activeTab != '') {
-            event.preventDefault();
+            event.preventDefault(); 
             window.api.saveNote(activeTab, editorText);
          }
       };

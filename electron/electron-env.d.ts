@@ -31,7 +31,7 @@ interface Window {
     loadNoteValue: (name: string) => Promise<string>;
     deleteNote: (name: string) => Void;
     renameNote: (name: string, newname: string) => void;
-    onLoadAllNoteNames: (callback: any) => Promise<String[]>;
+    loadAllNoteNames: () => Promise<string[]>;
 
     storeSet: (key: string, value: any) => void;
     storeGet: (key: string) => Promise<any>;

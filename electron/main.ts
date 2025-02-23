@@ -50,40 +50,6 @@ function createWindow() {
 
   // Hide menu-bar
   win.setMenu(null);
-
-  // Send all note names to renderer on startup
-  win.webContents.on('did-finish-load', async () => {
-    let namesToLoad: string[] = [];
-
-    // Create a default note on fresh install
-    if (!store.has("freshinstall")) {
-      const readmeNote = new Note("readme", "Thank you for installing Noti!\nYou can create your first Note from the sidebar");
-      readmeNote.save();
-      
-      namesToLoad.push("readme");
-      store.set("freshinstall", true);
-    }
-
-    // Load saved notes if any
-    try {
-      const fileContent = await fs.readFile(savePath, "utf-8");
-      const jsonData = JSON.parse(fileContent);
-  
-
-      if (jsonData) {
-        for (const [name] of Object.entries(jsonData)) {
-          namesToLoad.push(name);
-        }
-      }
-  
-    } catch {
-      console.error("no saved notes yet");
-    }
-
-    if (namesToLoad.length > 0) {
-      win?.webContents.send('note-loadallnames', namesToLoad);
-    }
-  });
 }
 
 app.on('window-all-closed', () => {
@@ -128,6 +94,38 @@ app.whenReady().then(() => {
   ipcMain.on("note-rename", (_event, name: string, newname: string) => {
     const loadedNote = new Note(name);
     loadedNote.rename(newname);
+  })
+
+  ipcMain.handle("note-loadallnames", async (_event) => {
+    let namesToLoad: string[] = [];
+
+    // Create a default note on fresh install
+    if (!store.has("freshinstall")) {
+      const readmeNote = new Note("readme", "Thank you for installing Noti!\nYou can create your first Note from the sidebar");
+      readmeNote.save();
+      
+      namesToLoad.push("readme");
+      store.set("freshinstall", true);
+    }
+
+    // Load saved notes if any
+    try {
+      const fileContent = await fs.readFile(savePath, "utf-8");
+      const jsonData = JSON.parse(fileContent);
+
+      if (jsonData) {
+        for (const [name] of Object.entries(jsonData)) {
+           namesToLoad.push(name);
+        }
+      }
+  
+    } catch {
+      console.error("no saved notes yet");
+    }
+
+    if (namesToLoad.length > 0) {
+      return namesToLoad;
+    }
   })
 
   // Handle storage

@@ -17,7 +17,6 @@ export default function Settings({ children }: {children: ReactNode}) {
 
     function toggleTheme() {
         setTheme(theme === "light" ? "dark" : "light")
-        console.log("theme")
     }
 
     return (

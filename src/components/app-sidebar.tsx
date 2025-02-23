@@ -30,9 +30,10 @@ import { Cog, MoreHorizontal, Paperclip, Pencil, Plus, Trash2 } from "lucide-rea
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { KeyboardEvent, useEffect, useRef, useState } from "react";
+import { KeyboardEvent, Suspense, useEffect, useRef, useState } from "react";
 import { useNotes } from "@/components/note-provider";
 import Settings from "@/settings";
+import { Spinner } from "@/components/ui/spinner";
 
 
 interface Tab {
@@ -51,16 +52,20 @@ export function AppSidebar() {
 
    // Load all note tabs on startup
    useEffect(() => {
-      window.api.onLoadAllNoteNames((tab: string[]) => {
-         tab.forEach((newTab) => {
+      async function handle() {
+         const tabs = await window.api.loadAllNoteNames();
+         
+         tabs.forEach((newTab) => {
             setTabs((prev) => {
-              if (!prev.some((existingTab) => existingTab.name === newTab)) {
-                return [...prev, { name: newTab }];
-              }
-              return prev;
+               if (!prev.some((existingTab) => existingTab.name === newTab)) {
+                  return [...prev, { name: newTab }];
+               }
+               return prev;
             });
-          });
-      });
+         });
+      }
+
+      handle();
     }, []);
 
 
@@ -72,7 +77,6 @@ export function AppSidebar() {
 
       changeEditorText('');
       changeActiveTab(tabname);
-      console.log("RENAMING")
     }
 
 
@@ -226,7 +230,7 @@ export function AppSidebar() {
                         {isRenaming === tab.name ? (
                            <Input onKeyDown={handleKeyDownOnRename} ref={renamingInputRef} placeholder={tab.name}></Input>
                         ) : (
-                           <>
+                           <Suspense fallback={<Spinner/>}>
                               <SidebarMenuButton onClick={() => switchTab(tab.name)} isActive={tab.name === activeTab}>
                                  <Paperclip />
                                  <span>{tab.name}</span>
@@ -251,7 +255,7 @@ export function AppSidebar() {
                                     </DropdownMenuItem>
                                  </DropdownMenuContent>
                               </DropdownMenu>
-                           </>
+                           </Suspense>
                         )}
 
                      </SidebarMenuItem>
