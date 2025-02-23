@@ -1,8 +1,11 @@
 {
-  "name": "app",
+  "name": "noti",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "A note taking app",
+  "license": "GPL-3.0-only",
+  "author": {"email": "zolotarjovdavid15@gmail.com", "name": "clxakz", "url": "https://github.com/clxakz"},
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder"

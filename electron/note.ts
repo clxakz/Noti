@@ -1,8 +1,9 @@
 import { PathLike } from "node:fs";
 import path from "node:path";
 import { promises as fs } from 'fs';
+import { app } from 'electron'
 
-export const savePath: PathLike = path.join("./", "notes.json");
+export const savePath: PathLike = path.join(app.getPath("userData"), "notes.json");
 
 export class Note {
     name: string;

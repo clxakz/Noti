@@ -16,6 +16,7 @@ export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 'public') : RENDERER_DIST
 
 let win: BrowserWindow | null
+// const appIcon = path.join("resources", "icons", "appIcon.ico")
 
 function createWindow() {
   win = new BrowserWindow({
@@ -27,6 +28,11 @@ function createWindow() {
       color: "rgba(255, 255, 255, 0)",
       symbolColor: "#4a4a4a"
     },
+    title: "Noti",
+    minWidth: 770,
+    minHeight: 400,
+    hasShadow: true,
+    // icon: appIcon,
 
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
@@ -37,13 +43,13 @@ function createWindow() {
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)
+    win.webContents.openDevTools({mode: "detach"})
   } else {
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
 
   // Hide menu-bar
   win.setMenu(null);
-  win.webContents.openDevTools({mode: "detach"})
 
   // Send all note names to renderer on startup
   win.webContents.on('did-finish-load', async () => {
@@ -51,7 +57,7 @@ function createWindow() {
 
     // Create a default note on fresh install
     if (!store.has("freshinstall")) {
-      const readmeNote = new Note("readme", "Thank's for installing Noti!");
+      const readmeNote = new Note("readme", "Thank you for installing Noti!\nYou can create your first Note from the sidebar");
       readmeNote.save();
       
       namesToLoad.push("readme");
