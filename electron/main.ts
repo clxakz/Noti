@@ -16,7 +16,7 @@ export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 'public') : RENDERER_DIST
 
 let win: BrowserWindow | null
-// const appIcon = path.join("resources", "icons", "appIcon.ico")
+const appIcon = path.join("build", "icon.png")
 
 function createWindow() {
   win = new BrowserWindow({
@@ -32,7 +32,7 @@ function createWindow() {
     minWidth: 770,
     minHeight: 400,
     hasShadow: true,
-    // icon: appIcon,
+    icon: appIcon,
 
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
