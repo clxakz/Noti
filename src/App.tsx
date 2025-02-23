@@ -37,7 +37,7 @@ function App() {
    return (
       <main className="flex flex-col absolute inset-0 overflow-y-hidden" onMouseEnter={() => {if (canCloseSidebar) { setOpen(false) } }}>
          {/* Titlebar */}
-         <div id="titlebar" className="h-8.5 w-full border-b-1"/>
+         <div id="titlebar" className="h-8.5 w-full border-b-1 z-50"/>
 
          {/* Text editor area */}
          <div className="ml-13 h-full">

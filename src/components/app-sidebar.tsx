@@ -114,6 +114,7 @@ export function AppSidebar() {
    // Handle deleting notes and corresponding tab
    function handleNoteDelete(tab: string) {
       window.api.deleteNote(tab);
+      changeEditorText('');
       setTabs((prev) => prev.filter((_tab) => _tab.name !== tab));
    }
 
