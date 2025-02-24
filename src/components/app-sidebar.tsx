@@ -178,7 +178,6 @@ export function AppSidebar() {
 
    return (
       <Sidebar
-         isFixed={false}
          collapsible="icon"
          onMouseEnter={() => setOpen(true)}
          className="bg-background">
