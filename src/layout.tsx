@@ -6,8 +6,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
    return (
       <NoteProvider>
          <SidebarProvider>
-            <AppSidebar />
-            {children}
+            <div className="flex flex-col h-screen">
+               {/* Titlebar */}
+               <div id="titlebar" className="h-8 w-screen border-b-1"/>
+
+               <div className="relative flex grow">
+                  <AppSidebar/>
+
+                  {/* Main Content */}
+                  <main className="absolute ml-12 inset-0">
+                     {children}
+                  </main>
+               </div>
+            </div>
          </SidebarProvider>
       </NoteProvider>
    );

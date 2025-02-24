@@ -178,9 +178,10 @@ export function AppSidebar() {
 
    return (
       <Sidebar
+         isFixed={false}
          collapsible="icon"
          onMouseEnter={() => setOpen(true)}
-         className="bg-background mt-8 overflow-hidden pb-8">
+         className="bg-background">
          <SidebarHeader className="m-0 p-0">
             <SidebarGroup>
                <SidebarGroupLabel>Your Notes</SidebarGroupLabel>
